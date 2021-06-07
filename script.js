@@ -2,6 +2,7 @@ class Device {
 	constructor(name,power) {
   	this.name = name;
     this.power = power;
+    this.plugIn = false;
   }
 }
 
@@ -57,9 +58,8 @@ class Flat {
   }
   
   plugIn(deviceOn) {
-  	this.devices.forEach(device => device == deviceOn ? device.plugIn = true : device = device )
-    let devicePowerOn = this.devices.filter(device => device.plugIn == true).map(device => device.power);
-  	if (devicePowerOn.reduce((sum, power) => sum + power, 0) > this.#maxPower) {
+  	this.devices.forEach(device => device == deviceOn ? device.plugIn = true : device = device );
+    if (this.sumPower() > this.#maxPower) {
   	  this.devices.forEach(device => device.plugIn = false);
   	  console.log('Суммарная потребляемая мощность превышает заданое значение. Все приборы выключены!');
   	}
@@ -70,20 +70,21 @@ class Flat {
   }
   
   sumPower () {
-  	let devicePowerOn = this.devices.filter(device => device.plugIn == true).map(device => device.power);
+  	let devicePowerOn = this.devices.filter(device => device.plugIn == true)
+    .map(device => device.power);
     return devicePowerOn.reduce((sum, power) => sum + power, 0);
     
   }
   
   sortPower () {
-  	return this.devices.filter(device => device.plugIn == true).sort ((device1, device2) => device1.power - device2.power);
+  	return this.devices.filter(device => device.plugIn == true)
+    .sort ((device1, device2) => device1.power - device2.power);
   }
   
   findPower (a,b) {
   	return this.devices.filter(device => device.power > a && device.power < b);
   }
-  
- }
+}
 
 let flat = new Flat(123, []);
 
@@ -99,7 +100,6 @@ flat.plugIn(teapot);
 flat.plugIn(washer);
 flat.plugIn(tv);
 flat.plugIn(teapot);
-
 
 console.log(flat);
 console.log(flat.listSwitchOn());
