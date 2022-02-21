@@ -106,3 +106,4 @@ console.log(flat.listSwitchOn());
 console.log(flat.sumPower());
 console.log(flat.sortPower());
 console.log(flat.findPower(1000,3000));
+console.log('test')
